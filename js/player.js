@@ -144,4 +144,6 @@ class Player {
     this.elem.style.setProperty("--row", this.row);
     this.elem.style.setProperty("--col", this.col);
   }
+
+  // SEND_MESSAGE("catch_me/essai", data);
 }
