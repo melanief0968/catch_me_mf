@@ -1,9 +1,10 @@
 class Player {
-  constructor(col, row, parent, grid) {
+  constructor(col, row, parent, grid, isOpponent = false) {
     this.parent = parent;
 
-    this.col = col;
-    this.row = row;
+    this.s = {}; // SHARED PARAMETERS
+    this.s.col = col;
+    this.s.row = row;
 
     this.grid = grid;
 
@@ -11,8 +12,8 @@ class Player {
     this.parent.appendChild(this.elem);
     this.selected = false;
 
-    // this.elem.style = this.col * this.size;
-    // this.elem.style = this.row * this.size;
+    // this.elem.style = this.s.col * this.size;
+    // this.elem.style = this.s.row * this.size;
     //this.elem.addEventListener('click', this.buildWall.bind(this));
 
     this.updateCSS();
@@ -23,13 +24,25 @@ class Player {
         this.arrowClick(e.target);
       });
     }
+
+    if(!isOpponent) {
+      PLAYER.pawns.push(this.s);
+    } else {
+      let index = OPPONENT_PAWNS.length;
+      DATABASE.ref(`${OPPONENT_ID}/pawns/${index}`).on("value", (snapshot) => {
+        let vals = snapshot.val();
+        console.log(vals);
+      });
+    }
+      
+
   }
 
   refreshPos() {
-    const coordsUp = `${this.col},${this.row - 1}`; //"x, y"
-    const coordsLeft = `${this.col - 1},${this.row}`; //"x, y"
-    const coordsRight = `${this.col + 1},${this.row}`; //"x, y"
-    const coordsDown = `${this.col},${this.row + 1}`; //"x, y"
+    const coordsUp = `${this.s.col},${this.s.row - 1}`; //"x, y"
+    const coordsLeft = `${this.s.col - 1},${this.s.row}`; //"x, y"
+    const coordsRight = `${this.s.col + 1},${this.s.row}`; //"x, y"
+    const coordsDown = `${this.s.col},${this.s.row + 1}`; //"x, y"
 
     if (this.grid[coordsUp] != null) {
       if (this.grid[coordsUp].elem.classList.contains("wall")) {
@@ -72,22 +85,22 @@ class Player {
       this.arrows[3].classList.add("hidden");
     }
 
-    // if (this.col == 0){
+    // if (this.s.col == 0){
     //   this.arrows[1].classList.add("hidden");
     // }else {
     //   this.arrows[1].classList.remove("hidden");
     // }
-    // if (this.col == 8){
+    // if (this.s.col == 8){
     //   this.arrows[2].classList.add("hidden");
     // }else {
     //   this.arrows[2].classList.remove("hidden");
     // }
-    // if (this.row == 0){
+    // if (this.s.row == 0){
     //   this.arrows[0].classList.add("hidden");
     // }else {
     //   this.arrows[0].classList.remove("hidden");
     // }
-    // if (this.row == 8){
+    // if (this.s.row == 8){
     //   this.arrows[3].classList.add("hidden");
     // }else {
     //   this.arrows[3].classList.remove("hidden");
@@ -116,12 +129,12 @@ class Player {
   }
 
   move(movementX, movementY) {
-    let positionX = movementX + this.col;
-    let positionY = movementY + this.row;
+    let positionX = movementX + this.s.col;
+    let positionY = movementY + this.s.row;
 
     if (positionX >= 0 && positionY >= 0 && positionX <= 8 && positionY <= 8) {
-      this.col += movementX;
-      this.row += movementY;
+      this.s.col += movementX;
+      this.s.row += movementY;
       this.updateCSS();
       this.refreshPos();
     }
@@ -141,8 +154,15 @@ class Player {
   }
 
   updateCSS() {
-    this.elem.style.setProperty("--row", this.row);
-    this.elem.style.setProperty("--col", this.col);
+    this.elem.style.setProperty("--row", this.s.row);
+    this.elem.style.setProperty("--col", this.s.col);
+  }
+
+  updateDatabase() {
+    if(isOpponent)
+      return;
+
+    SEND_MESSAGE(PLAYER)
   }
 
   // SEND_MESSAGE("catch_me/essai", data);
