@@ -3,55 +3,96 @@ const N_COLS = 9;
 const N_ROWS = 9;
 const GRID_SIZE = 80;
 
-let PLAYER_1;
-let PLAYER_1_2;
-let PLAYER_1_3;
-let PLAYER_2;
+let PAWNS = [];
+
+let OPPONENT_PAWNS = [];
+
 let GAME;
+
+let CELLS = [];
+let PLAYER = {pawns: []};
+let PLAYER_ID = "player1";
+let OPPONENT_ID = "player2";
+let CELLS_ID = "cells";
 
 
 //IDENTIFICATION DU JOUEUR
 // const urlParams = new URLSearchParams(window.location.search);
 // this.ID = urlParams.get("player");
 
+let prefilledOpponent;
+
 window.addEventListener("load", function () {
   initGrid();
   initPlayer();
-  GAME = new App(PLAYER_1, PLAYER_1_2, PLAYER_1_3, PLAYER_2 );
-  initCellsApp(); 
+  listenToDatabase();
+
+  SEND_MESSAGE(PLAYER);
+
+  GAME = new App(PAWNS);
+  initCellsApp();
 });
 
-function setup(){
-  this.appHasStarted = false;
-    DATABASE.ref("catch_me/essai").on(
-      "value",
-      this.onValueChanged.bind(this)
-    );
+
+function listenToDatabase() {
+
+   prefilledOpponent = {pawns: [{col: 0, row: 0}, {col: 1, row: 2}], cells: []};
+
+  SEND_MESSAGE(prefilledOpponent, OPPONENT_ID)
+
+  DATABASE.ref(OPPONENT_ID).once("value", (snapshot) => {
+    let vals = snapshot.val();
+
+    for (let pawn of vals.pawns) {
+
+      let col = pawn.col
+      let row = pawn.row
+
+      OPPONENT_PAWNS.push(new Player(col, row, document.querySelector("#gridContainer .players"), GRID, true))
+    }
+    
+  });
+
+  //self debugging
+  DATABASE.ref(OPPONENT_ID).on("value", (snapshot) => {
+    console.log(snapshot.val());
+  });
 }
 
 function initPlayer() {
-  PLAYER_1 = new Player(2,0, document.querySelector("#gridContainer .players"), GRID);
-  PLAYER_1_2 = new Player(4,0, document.querySelector("#gridContainer .players"), GRID);
-  PLAYER_1_3 = new Player(6,0, document.querySelector("#gridContainer .players"), GRID);
-  PLAYER_2 = new Player(4,8, document.querySelector("#gridContainer .players"), GRID);
-  
+  let params = [
+    { col: 2, row: 0, color: null },
+    { col: 4, row: 0, color: null },
+    { col: 6, row: 0, color: null },
+    { col: 4, row: 8, color: null },
+  ];
+
+  for (let { col, row } of params) {
+    //object destructuring
+    PAWNS.push(
+      new Player(
+        col,
+        row,
+        document.querySelector("#gridContainer .players"),
+        GRID
+      )
+    );
+  }
 }
 
-window.addEventListener('click', (evt) => {
+window.addEventListener("click", (evt) => {
   // console.log(evt.pageX, evt.pageY, evt.target);
-  if(evt.target === PLAYER_1.elem) {
-    // PLAYER_1.move(1, 0);
-  }
-  
+  // if (evt.target === PLAYER_1.elem) {
+  //   // PLAYER_1.move(1, 0);
+  // }
 });
 
 function initGrid() {
-
   let parent = document.querySelector("#gridContainer .cells");
   let domParams = document.documentElement.style;
-  domParams.setProperty('--n-rows', N_ROWS);
-  domParams.setProperty('--n-cols', N_COLS);
-  domParams.setProperty('--size', GRID_SIZE + 'px');
+  domParams.setProperty("--n-rows", N_ROWS);
+  domParams.setProperty("--n-cols", N_COLS);
+  domParams.setProperty("--size", GRID_SIZE + "px");
 
   // Construire la grille
   for (let col = 0; col < N_COLS; col++) {
@@ -60,9 +101,8 @@ function initGrid() {
       GRID[coords] = new Cell(col, row, parent); //!\ Objet Cell à construire
     }
   }
-//   Cibler la cellule en haut à gauche de la grille
-//   GRID["0,0"];
-
+  //   Cibler la cellule en haut à gauche de la grille
+  //   GRID["0,0"];
 }
 
 //"0,0" "buildWall"

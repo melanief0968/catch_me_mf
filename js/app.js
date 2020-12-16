@@ -1,6 +1,6 @@
 class App {
-    constructor(pawn1, pawn12, pawn13, pawn2) {
-        this.listOfPawns = [pawn1, pawn12, pawn13, pawn2]
+    constructor(listOfPawns) {
+        this.listOfPawns = listOfPawns
         this.currentPlayer;
         this.currentPawn = null;
   

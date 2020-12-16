@@ -1,77 +1,77 @@
 :root {
-    --color1: #8080FF;
-    --color2: #FFAD76;
-    --size: 80px;
-    --pawnSize: calc(var(--size) * 0.666);
+  --color1: #8080ff;
+  --color2: #ffad76;
+  --size: 80px;
+  --pawnSize: calc(var(--size) * 0.666);
 }
 
-html, body {
-    margin: 0;
-    padding: 100;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width:100vw;
-    
-    background-color: #25242D;
-}
+html,
+body {
+  margin: 0;
+  padding: 100;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
 
+  background-color: #25242d;
+}
 
 #gridContainer {
-    position: relative;
-    height: calc(var(--n-rows) * var(--size));
-    width: calc(var(--n-cols) * var(--size));
+  position: relative;
+  height: calc(var(--n-rows) * var(--size));
+  width: calc(var(--n-cols) * var(--size));
 }
 
 /* GRID */
-.position{
+.position {
+  position: absolute;
 
-    position:absolute;
+  --row: 0;
+  --col: 0;
 
-    --row: 0;
-    --col: 0;
+  width: var(--size);
+  height: var(--size);
 
-    width: var(--size);
-    height: var(--size);
-
-    top: calc(var(--size) * var(--row));
-    left: calc(var(--size) * var(--col));
+  top: calc(var(--size) * var(--row));
+  left: calc(var(--size) * var(--col));
 }
 
 .gridElement {
-    background-color: aliceblue;
-    border-radius: .6em;
-    box-shadow: inset 0 0 0 .3em #25242D;
-    transition: background-color 0.1s;
+  background-color: aliceblue;
+  border-radius: 0.6em;
+  box-shadow: inset 0 0 0 0.1em #25242d;
+  transition: all 1s;
 }
 
 .wall {
-    background-color: red;
-    /* background-color: var(--color1); */
+  background-color: white;
+
+  z-index: 1000;
+  box-shadow: inset 0 0 0 0.1em #25242d, 0 0.2em 1em 0.1em rgba(0, 0, 0, 0.8);
+  /* background-color: var(--color1); */
 }
 
-.case{
-    background-color:var(--color2);
-
+.case {
+  background-color: var(--color2);
 }
 
 .player {
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    --color: #8080FF;
+  --color: #8080ff;
 }
 
 .player .navigation-system {
-
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 1;
-    /* background: red; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  /* background: red; */
 }
 
 /* .player:hover .navigation-system {
@@ -80,47 +80,43 @@ html, body {
 } */
 
 .navigation-arrow {
-    position: absolute;
-    width: var(--size);
-    height: var(--size);
-    transform: translate(-100%,-100%);
-    background:var(--color1);
-    border-radius: .6em;
-    box-shadow: inset 0 0 0 .3em #25242D;
-    transition: background-color 0.1s;
-    opacity: 0.5;
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  transform: translate(-100%, -100%);
+  background: var(--color1);
+  border-radius: 0.6em;
+  box-shadow: inset 0 0 0 0.3em #25242d;
+  transition: background-color 0.1s;
+  opacity: 0.5;
 }
-.up{
-    top:0;
-    left:var(--size);
-    
+.up {
+  top: 0;
+  left: var(--size);
 }
-.down{
-    top:calc(2*var(--size));
-    left:var(--size);
-    
+.down {
+  top: calc(2 * var(--size));
+  left: var(--size);
 }
-.left{
-    top:var(--size);
-    left:0;
-    
+.left {
+  top: var(--size);
+  left: 0;
 }
-.right{
-    top:var(--size);
-    left:calc(2*var(--size));
-    
+.right {
+  top: var(--size);
+  left: calc(2 * var(--size));
 }
 
 .player1 {
-    --color: red;
+  --color: red;
 }
 
 .player .draw {
-    width: 66%;
-    height: 66%;
-    border-radius: 50%;
-    background-color: var(--color);
-    pointer-events: none;
+  width: 66%;
+  height: 66%;
+  border-radius: 50%;
+  background-color: var(--color);
+  pointer-events: none;
 }
 
 /* #template {
@@ -128,10 +124,8 @@ html, body {
 } */
 
 .hidden {
-    display: none;
+  display: none;
 }
-
-
 
 /* div.pawn {
     position: absolute;

@@ -42,8 +42,7 @@ firebase
 
 const DATABASE = firebase.database();
 
-function SEND_MESSAGE(_type, _data = "yes") {
+function SEND_MESSAGE(_data, path = PLAYER_ID) {
   // _data = {'data': _data, 't_created': Date.now()};
-  DATABASE.ref(_type).set(_data);
+  DATABASE.ref(path).set(_data);
 }
-
