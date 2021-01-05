@@ -47,7 +47,7 @@ window.addEventListener("load", function () {
 
 function listenToDatabase() {
 
-   prefilledOpponent = {pawns: [{col: 0, row: 0}, {col: 1, row: 2}], cells: []};
+   prefilledOpponent = {pawns: [{col: 2, row: 0}, {col: 4, row: 0}, {col: 6, row: 0}], cells: []};
 
   SEND_MESSAGE(prefilledOpponent, OPPONENT_ID)
 
@@ -72,9 +72,9 @@ function listenToDatabase() {
 
 function initPlayer() {
   let params = [
-    { col: 2, row: 0, color: null },
-    { col: 4, row: 0, color: null },
-    { col: 6, row: 0, color: null },
+    // { col: 2, row: 0, color: null },
+    // { col: 4, row: 0, color: null },
+    // { col: 6, row: 0, color: null },
     { col: 4, row: 8, color: null },
   ];
 

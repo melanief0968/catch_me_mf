@@ -20,10 +20,10 @@ class Cell {
     this.elem.style.setProperty("--row", this.s.row);
     this.elem.style.setProperty("--col", this.s.col);
 
-    //this.elem.addEventListener('click', this.buildWall.bind(this));
+    // this.elem.addEventListener('click', this.buildWall.bind(this));
     this.elem.addEventListener("click", () => {
-      // this.toggleWall(); // active  desactive le mur
-      this.buildWall();
+      this.toggleWall(); // active  desactive le mur
+      // this.buildWall();
     });
 
     CELLS.push(this.s);
