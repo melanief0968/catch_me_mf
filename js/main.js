@@ -1,7 +1,7 @@
 const GRID = {};
 const N_COLS = 9;
 const N_ROWS = 9;
-const GRID_SIZE = 80;
+const GRID_SIZE = 4;
 
 let PAWNS = [];
 
@@ -15,6 +15,15 @@ let PLAYER_ID = "player1";
 let OPPONENT_ID = "player2";
 let CELLS_ID = "cells";
 
+let POWER = [];
+let POWER_ID = "bigcells";
+const N_COLS_P = 1;
+const N_ROWS_P = 9;
+
+let DIRECTION = [];
+let DIRECTION_ID = "bigcells";
+
+
 
 //IDENTIFICATION DU JOUEUR
 // const urlParams = new URLSearchParams(window.location.search);
@@ -23,6 +32,8 @@ let CELLS_ID = "cells";
 let prefilledOpponent;
 
 window.addEventListener("load", function () {
+  initPower();
+  initDirection();
   initGrid();
   initPlayer();
   listenToDatabase();
@@ -92,7 +103,7 @@ function initGrid() {
   let domParams = document.documentElement.style;
   domParams.setProperty("--n-rows", N_ROWS);
   domParams.setProperty("--n-cols", N_COLS);
-  domParams.setProperty("--size", GRID_SIZE + "px");
+  domParams.setProperty("--size", GRID_SIZE + "vw");
 
   // Construire la grille
   for (let col = 0; col < N_COLS; col++) {
@@ -121,6 +132,48 @@ function initCellsApp() {
     }
   }
 }
+
+function initPower() {
+  let parent = document.querySelector("#power .bigcells");
+  let domParams = document.documentElement.style;
+  domParams.setProperty("--n-rows", N_ROWS_P);
+  domParams.setProperty("--n-cols", N_COLS_P);
+  domParams.setProperty("--size", GRID_SIZE + "px");
+
+  // Construire la grille
+  for (let col = 0; col < N_COLS_P; col++) {
+    for (let row = 0; row < N_ROWS_P; row++) {
+      const coords = `${col},${row}`; //"0,0";
+      GRID[coords] = new Power(col, row, parent); //!\ Objet Cell à construire
+    }
+  }
+}
+
+function initDirection() {
+  let parent = document.querySelector("#direction .bigcells");
+  let domParams = document.documentElement.style;
+  domParams.setProperty("--n-rows", N_ROWS_P);
+  domParams.setProperty("--n-cols", N_COLS_P);
+  domParams.setProperty("--size", GRID_SIZE + "px");
+
+  // Construire la grille
+  for (let col = 0; col < N_COLS_P; col++) {
+    for (let row = 0; row < N_ROWS_P; row++) {
+      const coords = `${col},${row}`; //"0,0";
+      GRID[coords] = new Direction(col, row, parent); //!\ Objet Cell à construire
+    }
+  }
+
+  // document.querySelector('.directionElement').add.classList('first');
+
+  // if(GRID[coords]=)
+  // domParams.DIRECTION[0].addClass('first');
+  // domParams.setProperty("--0-row", DIRECTION[0]);
+  // let first = DIRECTION[0];
+  // domParams.setProperty("first", DIRECTION[0]);
+  // console.log(first);
+}
+
 
 // function player(x,y){
 // let parent = document.querySelector("#pawn");

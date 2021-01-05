@@ -37,4 +37,8 @@ class App {
             pawn.refreshPos()
         }
     }
+    // updateDatabase() {
+    //     SEND_MESSAGE(DIRECTION, DIRECTION_ID)
+    //   }
+    
 }

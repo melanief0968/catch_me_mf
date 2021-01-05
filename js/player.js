@@ -8,9 +8,14 @@ class Player {
 
     this.grid = grid;
 
+
+
     this.elem = document.querySelector("#template .player").cloneNode(true);
     this.parent.appendChild(this.elem);
     this.selected = false;
+
+
+    // this.direction = direction;
 
     // this.elem.style = this.s.col * this.size;
     // this.elem.style = this.s.row * this.size;
@@ -46,7 +51,6 @@ class Player {
 
     if (this.grid[coordsUp] != null) {
       if (this.grid[coordsUp].elem.classList.contains("wall")) {
-        console.log("CEsT UN MUR");
         this.arrows[0].classList.add("hidden");
       } else {
         this.arrows[0].classList.remove("hidden");
@@ -85,26 +89,6 @@ class Player {
       this.arrows[3].classList.add("hidden");
     }
 
-    // if (this.s.col == 0){
-    //   this.arrows[1].classList.add("hidden");
-    // }else {
-    //   this.arrows[1].classList.remove("hidden");
-    // }
-    // if (this.s.col == 8){
-    //   this.arrows[2].classList.add("hidden");
-    // }else {
-    //   this.arrows[2].classList.remove("hidden");
-    // }
-    // if (this.s.row == 0){
-    //   this.arrows[0].classList.add("hidden");
-    // }else {
-    //   this.arrows[0].classList.remove("hidden");
-    // }
-    // if (this.s.row == 8){
-    //   this.arrows[3].classList.add("hidden");
-    // }else {
-    //   this.arrows[3].classList.remove("hidden");
-    // }
   }
 
   arrowClick(target) {
@@ -112,10 +96,9 @@ class Player {
       let way = target.dataset.way;
       let movementX = 0,
         movementY = 0;
-
+      let direction;
       if (way === "up") {
         movementY = -1;
-        console.log("up");
       } else if (way === "down") {
         movementY = 1;
       } else if (way === "left") {
@@ -125,6 +108,7 @@ class Player {
       }
 
       this.move(movementX, movementY);
+      
     }
   }
 
